@@ -1,9 +1,9 @@
 ﻿namespace MLTests
 {
-    public class MultipleInputsMultipleOutputs
+    public class SingleInMulOut
     {
         double[] _weights;
-        public MultipleInputsMultipleOutputs(double[] weights)
+        public SingleInMulOut(double[] weights)
         {
             _weights = weights;
         }
