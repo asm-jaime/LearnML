@@ -14,6 +14,12 @@ namespace MLTests
             return vecA.Select((elementA, index) => elementA * vecB[index]).ToArray();
         }
 
+        public static double[] ElementMul(double element, double[] vec)
+        {
+            var result = new double[vec.Length];
+            return result.Select((_, index) => vec[index] * element).ToArray();
+        }
+
         public static double[] ElementwiseAddition(double[] vecA, double[] vecB)
         {
             return vecA.Select((elementA, index) => elementA + vecB[index]).ToArray();
