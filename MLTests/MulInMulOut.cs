@@ -9,6 +9,7 @@
         }
         public double[] GetPrediction(double[] vec)
         {
+            return VectorMath.VectMatMul(vec, _weights);
         }
     }
 }
