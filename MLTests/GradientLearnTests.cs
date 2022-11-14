@@ -13,6 +13,7 @@ namespace MLTests
             for (int iteration = 0; iteration < iterations; iteration++)
             {
                 var prediction = input * result;
+                var error = Math.Pow(prediction - predictionGoal, 2);
                 var delta = prediction - predictionGoal;
                 var weightDelta = delta * input;
                 result = result - weightDelta;
@@ -66,6 +67,15 @@ namespace MLTests
             var learnedWeight = LearnWeightByGradient(weight,input, predictionGoal, iterations);
             var result = Math.Round(learnedWeight * input, 2);
             result.Should().Be(0.8);
+        }
+
+        [Test]
+        public void ShouldBreakLearnWeight()
+        {
+            var (weight, input, predictionGoal, iterations) = (0.0, 2.0, 0.8, 100);
+            var learnedWeight = LearnWeightByGradient(weight, input, predictionGoal, iterations);
+            var result = Math.Round(learnedWeight * input, 2);
+            result.Should().NotBe(0.8);
         }
     }
 }
