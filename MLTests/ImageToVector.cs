@@ -3,9 +3,21 @@ using Numpy;
 
 namespace MLTests
 {
-    public static class ImageToVector
+    public interface IImageToVector
     {
-        private static float[] GetNormalizedVector(float[] vector)
+        float[] GetVectorOnPath(string path);
+    }
+
+    public class ImageToVector : IImageToVector
+    {
+        private const string DefaultImageType = "grayscale";
+        private static readonly (int, int) DefaultSize = (28, 28);
+
+        public ImageToVector()
+        {
+
+        }
+        float[] GetNormalizedVector(float[] vector)
         {
             var max = vector.Max();
             var min = vector.Min();
@@ -13,24 +25,11 @@ namespace MLTests
             return vector;
         }
 
-        public static float[] GetVectorOnPath(string path)
+        public float[] GetVectorOnPath(string path)
         {
-            var image = ImageUtil.LoadImg(path, "grayscale", target_size: (28, 28));
-            NDarray x = ImageUtil.ImageToArray(image);
-            var shape = x.shape; // (28, 28, 3)
-            //var norm = new Keras.Layers.BatchNormalization();
-            
-            //x = x.reshape(1, x.shape[0], x.shape[1], x.shape[2]);
-            float[] data = x.GetData<float>();
-            /*
-            var array1 = ImageUtil.ImageToArray(image);
-
-            var array2 = np.expand_dims(array1, axis: 0);
-            var array3 = (NDarray)array2;
-            float[] data = array3.GetData<float>();
-            */
-            return GetNormalizedVector(data);
-            //return new float[] { };
+            var image = ImageUtil.LoadImg(path, DefaultImageType, target_size: DefaultSize);
+            NDarray imageArray = ImageUtil.ImageToArray(image);
+            return GetNormalizedVector(imageArray.GetData<float>());
         }
     }
 }
