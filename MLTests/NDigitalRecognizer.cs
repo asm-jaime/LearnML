@@ -1,6 +1,6 @@
 ﻿namespace MLTests
 {
-    public class DigitalRecognizer
+    public class NDigitalRecognizer
     {
         private ImageToVector _vectorReader;
         private string _trainDataPath;
@@ -13,7 +13,7 @@
         private const int DefaultIterations = 10;
         private const int DefaultSampleSize = 100;
 
-        public DigitalRecognizer(ImageToVector vectorReader, int inputSize, int outputSize, string trainDataPath, int sampleSize = DefaultSampleSize, float alpha = DefaultAlpha, int iterations = DefaultIterations)
+        public NDigitalRecognizer(ImageToVector vectorReader, int inputSize, int outputSize, string trainDataPath, int sampleSize = DefaultSampleSize, float alpha = DefaultAlpha, int iterations = DefaultIterations)
         {
             _sampleSize = sampleSize;
             _iterations = iterations;
