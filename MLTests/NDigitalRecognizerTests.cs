@@ -14,34 +14,21 @@ namespace MLTests
             var digitTwoPath = Path.Combine(trainDataPath, "2", "1055.jpg");
             var digitThreePath = Path.Combine(trainDataPath, "3", "1055.jpg");
             var digitFourPath = Path.Combine(trainDataPath, "4", "1055.jpg");
-            var digitFivePath = Path.Combine(trainDataPath, "5", "1055.jpg");
+            var digitFivePath = Path.Combine(trainDataPath, "5", "55.jpg");
             var digitSixPath = Path.Combine(trainDataPath, "6", "1055.jpg");
             var digitSevenPath = Path.Combine(trainDataPath, "7", "1055.jpg");
             var digitEightPath = Path.Combine(trainDataPath, "8", "1055.jpg");
-            var digitNinePath = Path.Combine(trainDataPath, "9", "1055.jpg");
+            var digitNinePath = Path.Combine(trainDataPath, "9", "55.jpg");
 
             var inputSize = 28 * 28;
             var outputSize = 10;
 
-            var alpha = 0.001f;
-            var iterations = 20;
-            var sampleSize = 100;
+            var alpha = 0.01f;
+            var iterations = 100;
 
-            var vectorReader = new ImageToVector();
-            var recognizer = new NDigitalRecognizer(vectorReader, inputSize, outputSize, trainDataPath, sampleSize, alpha, iterations);
+            var recognizer = new NDigitalRecognizer(new ImageToVector(), inputSize, outputSize, trainDataPath, alpha);
 
-            for (int learnDigit = 0; learnDigit < 10; learnDigit++)
-            {
-                recognizer.Learn(learnDigit);
-            }
-            for (int learnDigit = 0; learnDigit < 10; learnDigit++)
-            {
-                recognizer.Learn(learnDigit);
-            }
-            for (int learnDigit = 0; learnDigit < 10; learnDigit++)
-            {
-                recognizer.Learn(learnDigit);
-            }
+            recognizer.Learn(iterations);
 
             {
                 var (digit, value) = recognizer.Predict(digitNinePath);
@@ -52,7 +39,6 @@ namespace MLTests
                 var (digit, value) = recognizer.Predict(digitFivePath);
                 Assert.That(digit, Is.EqualTo(5));
                 Assert.That(value, Is.AtLeast(0.5f));
-
             }
 
             //recognizer.Predict(digitOnePath)[zero].Should().BeInRange(0.0f, 0.6f);

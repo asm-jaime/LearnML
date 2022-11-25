@@ -5,18 +5,12 @@
         private ImageToVector _vectorReader;
         private string _trainDataPath;
         private float[][] _weights;
-        private int _sampleSize;
-        private int _iterations;
         private float _alpha;
         private const int DigitsLength = 10;
         private const float DefaultAlpha = 0.1f;
-        private const int DefaultIterations = 10;
-        private const int DefaultSampleSize = 100;
 
-        public NDigitalRecognizer(ImageToVector vectorReader, int inputSize, int outputSize, string trainDataPath, int sampleSize = DefaultSampleSize, float alpha = DefaultAlpha, int iterations = DefaultIterations)
+        public NDigitalRecognizer(ImageToVector vectorReader, int inputSize, int outputSize, string trainDataPath, float alpha = DefaultAlpha)
         {
-            _sampleSize = sampleSize;
-            _iterations = iterations;
             _alpha = alpha;
 
             _vectorReader = vectorReader;
@@ -76,18 +70,21 @@
             return result;
         }
 
-        private float[][] GradientLearn(float[] input, float[][] weights, float[] predictionGoal, float alpha, int iterations)
+        private float[][] GradientLearn(float[] input, float[][] weights, float[] predictionGoal, float alpha)
         {
+            /*
+                var prediction = input.dot(resultWeights);
+                var delta = prediction - predictionGoal;
+                resultWeights = resultWeights - alpha * (input * delta);
+            */
+
             var result = weights.Select(row => row.ToArray()).ToArray();
-            for (int i = 0; i < iterations; i++)
+            var prediction = MulVM(input, result);
+            var deltas = SubVV(prediction, predictionGoal);
+            //var derivatives = MulVV(input, deltas);
+            for (var row = 0; row < result.Length; ++row)
             {
-                var prediction = MulVM(input, result);
-                var deltas = SubVV(prediction, predictionGoal);
-                var derivatives = MulVV(deltas, input);
-                for (var row = 0; row < result.Length; ++row)
-                {
-                    result[row] = SubVE(result[row], derivatives[row] * alpha);
-                }
+                result[row] = SubVE(result[row], derivatives[row] * alpha);
             }
             return result;
         }
@@ -98,14 +95,17 @@
             return result.Select((e, index) => digit.Equals(index) ? 1.0f : 0.0f).ToArray();
         }
 
-        public void Learn(int digit)
+        public void Learn(int iterations)
         {
-            for (var sample = 1; sample <= _sampleSize; ++sample)
+            for(int iteration = 1; iteration <= iterations; iteration++)
             {
-                var predictionGoal = GetPredictionGoalVector(digit);
-                var dataPath = Path.Combine(_trainDataPath, $"{digit}", $"{sample}.jpg");
-                var input = _vectorReader.GetVectorOnPath(dataPath);
-                _weights = GradientLearn(input, _weights, predictionGoal, _alpha, _iterations);
+                for (var digit = 0; digit < DigitsLength; ++digit)
+                {
+                    var predictionGoal = GetPredictionGoalVector(digit);
+                    var dataPath = Path.Combine(_trainDataPath, $"{digit}", $"{iteration}.jpg");
+                    var input = _vectorReader.GetVectorOnPath(dataPath);
+                    _weights = GradientLearn(input, _weights, predictionGoal, _alpha);
+                }
             }
         }
 
