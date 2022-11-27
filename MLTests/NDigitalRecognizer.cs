@@ -70,6 +70,20 @@
             return result;
         }
 
+
+        private float[][] ProdVV(float[] vecA, float[] vecB, float alpha)
+        {
+            float[][] result = vecA.Select(element => new float[vecB.Length]).ToArray();
+            for(int row = 0; row < vecA.Length; row++)
+            {
+                for(int col = 0; col < vecB.Length; col++)
+                {
+                    result[row][col] = vecA[row] * vecB[col] * alpha;
+                }
+            }
+            return result;
+        }
+
         private float[][] GradientLearn(float[] input, float[][] weights, float[] predictionGoal, float alpha)
         {
             /*
@@ -81,11 +95,13 @@
             var result = weights.Select(row => row.ToArray()).ToArray();
             var prediction = MulVM(input, result);
             var deltas = SubVV(prediction, predictionGoal);
-            //var derivatives = MulVV(input, deltas);
-            for (var row = 0; row < result.Length; ++row)
+            var weightsDeltas = ProdVV(deltas, input, alpha);
+
+            for(var row = 0; row < deltas.Length; ++row)
             {
-                result[row] = SubVE(result[row], derivatives[row] * alpha);
+                result[row] = SubVV(result[row], weightsDeltas[row]);
             }
+
             return result;
         }
 
