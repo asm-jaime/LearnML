@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class GradientLearnWithAlphaTests
+    public class GradientLearnWithAlphaTest
     {
         private double LearnWeightByGradientAlpha(double weight, double input, double predictionGoal, double alpha, int iterations)
         {

@@ -4,7 +4,17 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class MultipleInputNeuralTests
+    public class MultipleWeightsNeural
+    {
+        public NDarray Weights { get; set; }
+
+        public NDarray Prediction(NDarray inputs)
+        {
+            return inputs.dot(Weights);
+        }
+    }
+
+    public class MultipleInputNeuralTest
     {
         [Test]
         public void ShouldMultiplePredict()

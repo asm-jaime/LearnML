@@ -2,7 +2,7 @@
 
 namespace MLTests
 {
-    public class GradientMulInMulOutTests
+    public class GradientMulInMulOutTest
     {
         private double[] MulVV(double[] vecA, double[] vecB)
         {

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class NSteerLightReluTests
+    public class NSteerLightReluTest
     {
         private NDarray Relu(NDarray layer)
         {

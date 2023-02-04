@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class MatrixTests
+    public class MatrixTest
     {
         [Test]
         public void ShouldMatrixBe()

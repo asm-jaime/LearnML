@@ -3,6 +3,15 @@ using NUnit.Framework;
 
 namespace MLTests
 {
+    public class SimpiestNeural
+    {
+        public double Weight { set; get; } = 0;
+
+        public double Prediction(double input) {
+            return Weight * input;
+        }
+    }
+
     public class SimplestNeuralTests
     {
         [Test]
@@ -15,7 +24,6 @@ namespace MLTests
             // 10 * 0.5 = 5
             SimpiestNeural neuron = new SimpiestNeural() { Weight = 0.1 };
             neuron.Prediction(8.5).Should().BeInRange(0.84, 0.86);
-            //gameData.GetGameState()
         }
 
     }

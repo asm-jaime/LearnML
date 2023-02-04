@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace MLTests
 {
-    public class GradientLearnTests
+    public class GradientLearnTest
     {
         private double LearnWeightByGradient(double weight, double input, double predictionGoal, int iterations)
         {

@@ -1,5 +1,7 @@
-﻿using Keras.Datasets;
+﻿using FluentAssertions;
+using Keras.Datasets;
 using Numpy;
+using NUnit.Framework;
 
 namespace MLTests
 {
@@ -41,7 +43,7 @@ namespace MLTests
 
             np.random.seed(1);
 
-            var (alpha, iterations, hidden_size)  = (2.0f, 30, 100);
+            var (alpha, iterations, hidden_size) = (2.0f, 30, 100);
             var (pixels_per_image, num_labels) = (784, 10);
             var batch_size = 100;
 
@@ -50,7 +52,7 @@ namespace MLTests
 
             for (var i = 0; i < iterations; i++)
             {
-                for (var imageId = 0; imageId < images.len/batch_size; ++imageId)
+                for (var imageId = 0; imageId < images.len / batch_size; ++imageId)
                 {
                     var (batch_start, batch_end) = (imageId * batch_size, (imageId + 1) * batch_size);
                     var layer_0 = images[$"{batch_start}:{batch_end}"];
@@ -89,5 +91,18 @@ namespace MLTests
             var max = result.Max();
             return result.Select((e, index) => new { e, index }).OrderBy(e => e.e).Last().index;
         }
+    }
+
+    public class NDLActivationTathDigitalRecTest
+    {
+        [Test]
+        public void ShouldPredictByUsingTathActivationFunc()
+        {
+            var recognizer = new NDLActivationTathDigitalRec(Path.GetFullPath(@"D:/projects.active/LearnML/data/mnist.npz"));
+            recognizer.TrainOnMNISTDataWhithTath();
+            var result = recognizer.PredictNumber(0);
+            result.Should().Be(7);
+        }
+
     }
 }

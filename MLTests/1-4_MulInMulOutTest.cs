@@ -4,7 +4,20 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class MulInMulOutTests
+    public class MulInMulOut
+    {
+        double[][] _weights;
+        public MulInMulOut(double[][] weights)
+        {
+            _weights = weights;
+        }
+        public double[] GetPrediction(double[] vec)
+        {
+            return VectorMath.VectMatMul(vec, _weights);
+        }
+    }
+
+    public class MulInMulOutTest
     {
         [Test]
         public void ShouldMulPredict()

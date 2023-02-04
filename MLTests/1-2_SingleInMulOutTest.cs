@@ -3,7 +3,20 @@ using NUnit.Framework;
 
 namespace MLTests
 {
-    public class SingleInMulOutTests
+    public class SingleInMulOut
+    {
+        double[] _weights;
+        public SingleInMulOut(double[] weights)
+        {
+            _weights = weights;
+        }
+        public double[] GetPredict(double input)
+        {
+            return VectorMath.ElementMul(input, _weights);
+        }
+    }
+
+    public class SingleInMulOutTest
     {
         [Test]
         public void ShouldReturnInjureWinSad()
